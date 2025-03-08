@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Level 1</title>
+    <style>
+        /* 保持原有样式不变 */
+        body { margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; font-family: Arial, sans-serif; background-color: #f0f0f0; }
+        .level-title { margin-top: 40px; font-size: 24px; color: #333; }
+        .nav-buttons { position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; }
+        .question-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .question-form { display: flex; align-items: baseline; gap: 10px; position: relative; margin-bottom: 30px; }
+        .input-line { border: none; border-bottom: 2px solid #666; width: 60px; padding: 5px 0; font-size: 20px; text-align: center; background: transparent; outline: none; }
+        .input-line:focus { border-bottom-color: #4CAF50; }
+        button { padding: 8px 16px; color: white; border: none; border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+        button:disabled { background-color: #cccccc !important; cursor: not-allowed; }
+        .submit-btn { background-color: #4CAF50; }
+        .submit-btn:hover { background-color: #45a049; transform: translateY(-1px); }
+        .custom-alert { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 25px 40px; border-radius: 8px; color: white; font-weight: bold; opacity: 0; transition: opacity 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 100; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .alert-buttons { display: flex; gap: 15px; }
+        .success { background: #4CAF50; }
+        .error { background: #f44336; }
+        .prev-btn { background-color: #2196F3; }
+        .restart-btn { background-color: #FF9800; }
+        .next-btn { background-color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <div class="nav-buttons">
+        <button class="prev-btn" onclick="prevLevel()">← 上一关</button>
+        <button id="nextNavButton" class="next-btn" onclick="nextLevel()" disabled>下一关 →</button>
+    </div>
+
+    <div class="level-title">alpha-level1</div>
+    
+    <div class="question-container">
+        <form class="question-form" onsubmit="checkAnswer(event)">
+            <span style="font-size: 24px;">1+1=</span>
+            <input type="text" 
+                   id="answer" 
+                   class="input-line"
+                   autocomplete="off"
+                   maxlength="2">
+            <button type="submit" class="submit-btn">提交</button>
+        </form>
+    </div>
+
+    <!-- 自定义提示框 -->
+    <div id="customAlert" class="custom-alert">
+        <span id="alertText"></span>
+        <div class="alert-buttons">
+            <button class="prev-btn" onclick="prevLevel()">← 上一关</button>
+            <button class="restart-btn" onclick="restartLevel()">↺ 重新开始</button>
+            <button class="next-btn" onclick="nextLevel()" id="alertNextBtn">下一关 →</button>
+        </div>
+    </div>
+
+    <script>
+        // 初始化状态
+        let isPassed = localStorage.getItem('alpha-level1') === 'passed';
+        const nextNavButton = document.getElementById('nextNavButton');
+        const alertNextBtn = document.getElementById('alertNextBtn');
+        const answerInput = document.getElementById('answer');
+
+        // 初始化按钮状态
+        function updateButtons() {
+            nextNavButton.disabled = !isPassed;
+            alertNextBtn.disabled = !isPassed;
+            if(isPassed) answerInput.disabled = true;
+        }
+        updateButtons();
+
+        function showAlert(message, isSuccess) {
+            const alert = document.getElementById('customAlert');
+            alert.className = `custom-alert ${isSuccess ? 'success' : 'error'}`;
+            document.getElementById('alertText').textContent = message;
+            alert.style.opacity = '1';
+            updateButtons();
+        }
+
+        function hideAlert() {
+            document.getElementById('customAlert').style.opacity = '0';
+        }
+
+        function checkAnswer(event) {
+            event.preventDefault();
+            const answer = answerInput.value.trim();
+
+            if(answer === '2') {
+                if(!isPassed) {
+                    isPassed = true;
+                    localStorage.setItem('alpha-level1', 'passed');
+                }
+                showAlert('🎉 回答正确！', true);
+            } else {
+                showAlert('❌ 答案错误，请重试', false);
+                answerInput.value = '';
+                answerInput.focus();
+            }
+            updateButtons();
+        }
+
+        function restartLevel() {
+            answerInput.disabled = false;
+            answerInput.value = '';
+            answerInput.focus();
+            hideAlert();
+        }
+
+        function prevLevel() {
+            // 替换为上一关URL
+            window.location.href = 'https://priderbill.github.io/regularity-finding/levelpacks/alpha/level1';
+        }
+
+        function nextLevel() {
+            if(isPassed) {
+                // 替换为下一关URL
+                window.location.href = 'https://priderbill.github.io/regularity-finding/levelpacks/alpha/level2';
+            }
+        }
+
+        // 初始聚焦输入框
+        answerInput.focus();
+    </script>
+</body>
+</html>
