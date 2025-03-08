@@ -1,1 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单机网页游戏</title>
+    <style>
+        /* 游戏界面样式 */
+        .game-container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="status-bar">
+            <div>金币：<span id="gold">0</span></div>
+            <div>等级：<span id="level">1</span></div>
+        </div>
+        <button onclick="gainGold(10)">挖矿</button>
+        <button onclick="resetGame()">重置游戏</button>
+    </div>
 
+    <script>
+        // 游戏逻辑核心
+        const saveManager = {
+            saveKey: 'mineGameSave',
+            save(data) {
+                localStorage.setItem(this.saveKey, JSON.stringify(data));
+            },
+            load() {
+                return JSON.parse(localStorage.getItem(this.saveKey)) || {
+                    gold: 0,
+                    level: 1,
+                    lastPlay: Date.now()
+                };
+            }
+        };
+
+        let gameData = saveManager.load();
+
+        function updateUI() {
+            document.getElementById('gold').textContent = gameData.gold;
+            document.getElementById('level').textContent = gameData.level;
+        }
+
+        function gainGold(amount) {
+            gameData.gold += amount;
+            if(gameData.gold > 100) {
+                gameData.level++;
+                gameData.gold = 0;
+            }
+            saveManager.save(gameData);
+            updateUI();
+        }
+
+        function resetGame() {
+            localStorage.removeItem(saveManager.saveKey);
+            gameData = { gold: 0, level: 1 };
+            updateUI();
+        }
+
+	// 查看所有 localStorage 键
+	console.log("当前存储的键:", Object.keys(localStorage));
+
+	// 直接读取存档
+	const saveData = localStorage.getItem('mineGameSave');
+	console.log("存档内容:", JSON.parse(saveData));
+
+
+
+        // 初始化
+        updateUI();
+    </script>
+</body>
+</html>
