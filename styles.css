@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+/* 容器布局 */
+.container {
+    height: 133.33vh;
+    position: relative;
+}
+
+/* 标题区样式 */
+.title-section {
+    height: 33.33vh;
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+
+/* 内容区样式 */
+.content-section {
+    height: 100vh;
+    position: fixed;
+    top: 33.33vh;
+    width: 100%;
+    transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #3498db;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    padding: 40px 20px;
+}
+
+/* 公式容器 */
+.formula-container {
+    max-width: 12000px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 公式主体
+.formula {
+    font-size: 1.1em;
+    padding: 30px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 40px;
+    text-align: center;
+} */
+
+/* 按钮组样式 */
+.button-group {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    max-width: 800px;
+    justify-content: center;
+}
+
+/* 数学按钮样式 */
+.math-btn {
+    padding: 14px 28px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,0.3);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+    max-width: 250px;
+    backdrop-filter: blur(4px);
+}
+
+.math-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .content-section {
+        padding: 20px 15px;
+    }
+
+    .formula {
+        padding: 20px;
+        margin-bottom: 30px;
+        font-size: 1em;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 400px;
+    }
+
+    .math-btn {
+        width: 100%;
+        max-width: none;
+        padding: 12px 24px;
+    }
+}
