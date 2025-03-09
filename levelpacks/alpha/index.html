@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>几何解谜关卡</title>
+    <link rel="stylesheet" href="../css/game.css">
+</head>
+<body>
+    <div class="nav-buttons">
+        <button class="prev-btn" id="prevBtn" disabled>← 上一关</button>
+        <button class="next-btn" id="nextBtn" disabled>下一关 →</button>
+    </div>
+
+    <h1 class="level-title" id="levelTitle">加载中...</h1>
+    
+    <div class="game-container">
+        <form class="question-form" id="questionForm">
+            <div class="question-text" id="questionText"></div>
+            <div class="answer-container">
+                <input type="text" 
+                       id="answerInput"
+                       class="answer-input"
+                       autocomplete="off"
+                       placeholder="请输入答案">
+                <button type="submit" class="submit-btn">提交答案</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="customAlert" class="custom-alert">
+        <div class="alert-content">
+            <span id="alertText"></span>
+            <div class="alert-buttons">
+                <button class="alert-btn prev-btn" id="alertPrevBtn">← 上一关</button>
+                <button class="alert-btn restart-btn" id="alertRestartBtn">↺ 重新开始</button>
+                <button class="alert-btn next-btn" id="alertNextBtn">下一关 →</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="game.js"></script>
+</body>
+</html>
