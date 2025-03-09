@@ -1,0 +1,171 @@
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background: #f8f9fa;
+    color: #2c3e50;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 导航按钮 */
+.nav-buttons {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.prev-btn {
+    background: #3498db;
+    color: white;
+}
+
+.next-btn {
+    background: #2ecc71;
+    color: white;
+}
+
+button:disabled {
+    background: #bdc3c7 !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* 游戏容器 */
+.game-container {
+    flex: 1;
+    width: 100%;
+    max-width: 800px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.level-title {
+    margin: 40px 0;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.question-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.question-text {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.answer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.answer-input {
+    width: 200px;
+    padding: 15px;
+    font-size: 1.5rem;
+    text-align: center;
+    border: none;
+    border-bottom: 3px solid #3498db;
+    background: transparent;
+    transition: border-color 0.3s ease;
+}
+
+.answer-input:focus {
+    outline: none;
+    border-bottom-color: #2ecc71;
+}
+
+.submit-btn {
+    background: #e67e22;
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+}
+
+.submit-btn:hover {
+    background: #d35400;
+}
+
+/* 自定义弹窗 */
+.custom-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.alert-content {
+    background: white;
+    padding: 30px 50px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.alert-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.alert-btn {
+    min-width: 120px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .level-title {
+        font-size: 2rem;
+    }
+
+    .question-text {
+        font-size: 1.5rem;
+    }
+
+    .answer-input {
+        width: 150px;
+        font-size: 1.2rem;
+    }
+
+    .nav-buttons {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+    }
+}
