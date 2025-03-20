@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Levels</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2.5em;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .levels-container {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .level {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            padding: 20px;
+            min-width: 150px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .level:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">1.alpha</h1>
+    
+    <div class="levels-container">
+        <div class="level" onclick="window.location.href='./level1'">Level 1</div>
+        <div class="level" onclick="window.location.href='./level2'">Level 2</div>
+        <div class="level" onclick="window.location.href='./level3'">Level 3</div>
+        <div class="level" onclick="window.location.href='./level4'">Level 4</div>
+        <div class="level" onclick="window.location.href='./level5'">Level 5</div>
+        <div class="level" onclick="window.location.href='./level6'">Level 6</div>
+    </div>
+</body>
+</html>
