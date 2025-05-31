@@ -2,6 +2,18 @@
 <html>
 <head>
     <style>
+        /* 添加标题样式 */
+        .page-title {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            /*text-transform: uppercase;*/
+            letter-spacing: 0px;
+        }
         body {
             margin: 0;
             min-height: 100vh;
@@ -92,8 +104,12 @@
     </style>
 </head>
 <body>
+    <!-- 添加标题 -->
+    <div class="page-title">alpha-level3(oeis A000217)</div>
+    
     <div class="level-nav">
         <button class="nav-button" onclick="location.href='../level2/index.html'">← 上一关</button>
+        <button class="nav-button" onclick="location.href='../index.html'">关卡列表</button>
         <button class="nav-button" id="nextButton" disabled onclick="location.href='../level4/index.html'">下一关 →</button>
     </div>
 
@@ -110,19 +126,23 @@
     </div>
 
 <script>
-const triangularNumber = n => Math.max(0, n * (n - 1) / 2);
+// 数列生成函数（唯一修改点）
+const sequenceFormula = n => n*(n-1)/2;
 
+// 状态控制
 let currentN = 1;
 let numbersCount = 6;
 
 function generateSequence() {
-    return Array.from({length: numbersCount}, (_, i) => triangularNumber(currentN + i));
+    return Array.from({length: numbersCount}, (_, i) => 
+        sequenceFormula(currentN + i)
+    );
 }
 
 function getAnswers() {
     return [
-        triangularNumber(currentN + numbersCount),
-        triangularNumber(currentN + numbersCount + 1)
+        sequenceFormula(currentN + numbersCount),
+        sequenceFormula(currentN + numbersCount + 1)
     ];
 }
 
