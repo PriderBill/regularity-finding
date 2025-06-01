@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* 添加标题样式 */
+        .page-title {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            /*text-transform: uppercase;*/
+            letter-spacing: 0px;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial;
+            background: #f8f9fa;
+        }
+        .level-nav {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .pyramid-container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px;
+        }
+        .pyramid-row {
+            display: flex;
+            gap: 30px;
+	    margin-top: 12px;
+            justify-content: center;
+        }
+        .number {
+            font-size: 32px;
+            color: #2c3e50;
+            min-width: 35px;
+            text-align: center;
+            padding: 3px;
+        }
+        .input-pyramid {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .input-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .validation-input {
+            /* 移除固定宽度 width: 50px; */
+            padding: 6px;
+            border: none;
+            border-bottom: 3px solid #bdc3c7;
+            text-align: center;
+            font-size: 18px;
+            background: transparent;
+            transition: all 0.3s;
+        }
+        .validation-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        .correct { border-color: #2ecc71; }
+        .wrong { border-color: #e74c3c; }
+        .button-group {
+            position: absolute;
+            bottom: 40px;
+        }
+        #addButton {
+            padding: 12px 40px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .nav-button {
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-button:not(:disabled) {
+            background: #3498db;
+            color: white;
+            border: 2px solid #3498db;
+        }
+        .nav-button:disabled {
+            background: #bdc3c7;
+            color: #7f8c8d;
+            border: 2px solid #bdc3c7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <!-- 添加标题 -->
+    <div class="page-title">beta-level10(oeis A011971)</div>
+    <div class="level-nav">
+        <button class="nav-button" onclick="location.href='../level9/index.html'">← 上一关</button>
+        <button class="nav-button" onclick="location.href='../index.html'">关卡列表</button>
+        <button class="nav-button" id="nextButton" disabled onclick="location.href='../level11/index.html'">下一关 →</button>
+    </div>
+
+    <div class="pyramid-container">
+        <div id="number-pyramid"></div>
+        <div class="input-pyramid" id="input-container"></div>
+    </div>
+
+    <div class="button-group">
+        <button id="addButton" onclick="addLayer()">添加序列</button>
+    </div>
+
+<script>
+function binomial(n, k) {
+     if ((typeof n !== 'number') || (typeof k !== 'number')) 
+  return false; 
+    var coeff = 1;
+    for (var x = n-k+1; x <= n; x++) coeff *= x;
+    for (x = 1; x <= k; x++) coeff /= x;
+    return coeff;
+}
+function bell(n)
+{
+         if (typeof n !== 'number') 
+  return false; 
+    if(n==0)return 1;
+    var coeff = 0;
+    for(var x=0;x<=n-1;x++)
+{
+    coeff+=binomial(n-1,x)*bell(x);
+}
+    return coeff;
+}
+function Bell(n,k){
+     if ((typeof n !== 'number') || (typeof k !== 'number')) 
+  return false;     
+    var coeff=0;
+    for(var i=0;i<=k;i++){
+        coeff+=binomial(k,i)*bell(n-k+i);
+    }
+    return coeff;
+}
+// 核心公式函数（可在此修改数列规律）
+function sequenceFormula(m, n) {
+    //f(m,n) = binomial(m,n)
+    // 可修改为其他公式，例如：
+    // return m + n;          // 行列之和
+    // return m * n;          // 行列乘积
+    // return Math.pow(m, n); // m的n次方
+    return Bell(m-1,n-1);
+	}
+
+// 状态控制
+let totalLayers = 6; // 初始显示3层
+
+function generatePyramid() {
+    const container = document.getElementById('number-pyramid');
+    container.innerHTML = '';
+    
+    // 生成数字金字塔
+    for(let m = 1; m <= totalLayers; m++) {
+        const row = document.createElement('div');
+        row.className = 'pyramid-row';
+        
+        for(let n = 1; n <= m; n++) {
+            const num = sequenceFormula(m, n);
+            row.innerHTML += `<div class="number">${num}</div>`;
+        }
+        container.appendChild(row);
+    }
+}
+
+function createInputs() {
+    const container = document.getElementById('input-container');
+    container.innerHTML = '';
+    
+    // 生成两排输入框（对应下一层和下下层的数列）
+    for(let offset = 1; offset <= 2; offset++) {
+        const targetLayer = totalLayers + offset;
+        const row = document.createElement('div');
+        row.className = 'input-row';
+        
+        for(let n = 1; n <= targetLayer; n++) {
+            row.innerHTML += `
+                <input type="number" class="validation-input" 
+                    style="width: ${targetLayer * 10}px"
+                    data-m="${targetLayer}"
+                    data-n="${n}"
+                    oninput="validateInput(this)">
+            `;
+        }
+        container.appendChild(row);
+    }
+}
+
+function validateInput(input) {
+    const m = parseInt(input.dataset.m);
+    const n = parseInt(input.dataset.n);
+    const correctValue = sequenceFormula(m, n);
+    
+    input.classList.toggle('correct', parseInt(input.value) === correctValue);
+    input.classList.toggle('wrong', parseInt(input.value) !== correctValue);
+    checkAllAnswers();
+}
+
+function checkAllAnswers() {
+    const allInputs = document.querySelectorAll('.validation-input');
+    const allCorrect = Array.from(allInputs).every(input => {
+        return input.classList.contains('correct');
+    });
+    document.getElementById('nextButton').disabled = !allCorrect;
+}
+
+function addLayer() {
+    totalLayers++;
+    generatePyramid();
+    createInputs();
+    checkAllAnswers();
+}
+
+// 初始化
+generatePyramid();
+createInputs();
+</script>
+</body>
+</html>
